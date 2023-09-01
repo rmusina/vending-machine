@@ -1,10 +1,11 @@
-import { Product } from "../components/Product"
+import { Box } from "@mui/material"
+import { FC } from "react"
+import { Product, ProductProps } from "./Product"
 
-export const Products = () => {
-	return (
-		<div>
-			<Product title='Redbull' price={5} />
-			<Product title='Fanta' price={3} />
-		</div>
-	)
+interface ProductsProps {
+	products: ProductProps[]
+}
+
+export const Products: FC<ProductsProps> = (props) => {
+	return <Box>{props.products.map(product => <div><Product name={product.name} price={product.price} /></div>)}</Box>
 }

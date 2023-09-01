@@ -9,7 +9,7 @@ function App() {
 		<BrowserRouter>
 	    <Routes>
 	      <Route path="/" element={<Login/>} />
-	      <Route path="/vending-machine" element={<VendingMachine/>} />
+	      <Route path="/vending-machine" element={<VendingMachine url={process.env.REACT_APP_BACKEND_URL + "/products"}/>} />
 	      <Route path="/*" element={<NotFound/>} />
 	    </Routes>
 		</BrowserRouter>
