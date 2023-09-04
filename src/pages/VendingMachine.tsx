@@ -56,7 +56,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     }
 
     return (
-        <Box>
+        <Box> 
             <TextField id="standard-basic" label="Rares Musina" variant="standard" />
             <Products products={products}/>
             <BalanceManagement />
