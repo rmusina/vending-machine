@@ -15,6 +15,30 @@ const payload = [
         price: 2
     },
     {
+        name: 'Red bull',
+        price: 2
+    },
+    {
+        name: 'Red bull',
+        price: 2
+    },
+    {
+        name: 'Red bull',
+        price: 2
+    },
+    {
+        name: 'Red bull',
+        price: 2
+    },
+    {
+        name: 'Red bull',
+        price: 2
+    },
+    {
+        name: 'Red bull',
+        price: 2
+    },
+    {
         name: 'Martini',
         price: 200
     }

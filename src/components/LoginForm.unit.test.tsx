@@ -15,7 +15,7 @@ test('Clicking login saves username in redux', () => {
         </Provider>
     );
 
-    const textBox = getByLabelText('Username');
+    const textBox = getByLabelText('Customer *');
     fireEvent.change(textBox, { target: { value: 'Rares' } });
 
     const button = getByText('Login');

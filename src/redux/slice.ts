@@ -17,7 +17,11 @@ export const vendingMachineSlice = createSlice({
     initialState,
     reducers: {
         updateBalance: (state, action: PayloadAction<number | null>) => {
-            state.balance += action.payload
+            if (action.payload === 0) {
+                state.balance = 0;
+            } else {
+                state.balance += action.payload
+            }            
         },
         setName: (state, action: PayloadAction<string | null>) => {
             state.name = action.payload

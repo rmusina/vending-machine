@@ -37,7 +37,7 @@ export const BalanceManagement = () => {
                     <Typography component="p" variant="h4">{balance.toFixed(2)}€</Typography>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button fullWidth color="success" variant="contained">Refund</Button>
+                    <Button fullWidth color="success" variant="contained" onClick={() => handleOnClick(0)}>Refund</Button>
                 </Grid>
             </Grid>
         </Box>
