@@ -1,4 +1,4 @@
-import { TextField } from "@mui/material"
+import { Container, Grid, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { FC, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -64,10 +64,24 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     }
 
     return (
-        <Box> 
-            <TextField id="standard-basic" label={name} variant="standard" />
-            <Products products={products}/>
-            <BalanceManagement />
+        <Box sx={{ display: 'flex' }}>
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                <Grid container spacing={3}>
+                    <Grid item xs={8}>
+                        <Products products={products} />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12}>
+                                <Typography component="p" variant="h3">{name}</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <BalanceManagement />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Container>
         </Box>
     )
 }

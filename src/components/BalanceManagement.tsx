@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material"
+import { Box, Button, Grid, Typography } from "@mui/material"
 import { useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { updateBalance } from "../redux/slice"
@@ -13,19 +13,33 @@ export const BalanceManagement = () => {
 	}, [dispatch])
     
     return (
-		<Box sx={{border: '2px solid red'}}>
-			<Box>
-                <Button onClick={() => handleOnClick(0.1)}>0.1 EUR</Button>
-                <Button onClick={() => handleOnClick(0.2)}>0.2 EUR</Button>
-                <Button onClick={() => handleOnClick(0.5)}>0.5 EUR</Button>
-                <Button onClick={() => handleOnClick(1)}>1 EUR</Button>
-                <Button onClick={() => handleOnClick(2)}>2 EUR</Button>
-                <Button onClick={() => handleOnClick(5)}>5 EUR</Button>
-            </Box>
-            <Box>
-                <TextField id="standard-basic" label={balance} variant="standard"/>
-                <Button>Refund</Button>
-            </Box>
-		</Box>
+        <Box>
+            <Grid container spacing={3}>
+                <Grid item xs={6}>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(0.1)}>0.1€</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(0.2)}>0.2€</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(0.5)}>0.5€</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(1)}>1€</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(2)}>2€</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(5)}>5€</Button>
+                </Grid>
+                <Grid item xs={6}>
+                    <Typography component="p" variant="h4">{balance.toFixed(2)}€</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                    <Button fullWidth color="success" variant="contained">Refund</Button>
+                </Grid>
+            </Grid>
+        </Box>
 	)
 }

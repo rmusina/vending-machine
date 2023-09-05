@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import { setName } from '../redux/slice';
 
 
-test('Clicking login saves username in redux store', () => {
+test('Clicking login saves username in redux', () => {
     const mockedStore = configureStore()({})
 
     const { getByText, getByLabelText } = render(

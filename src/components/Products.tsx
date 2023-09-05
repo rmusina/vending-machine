@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Grid } from "@mui/material"
 import { FC } from "react"
 import { Product, ProductProps } from "./Product"
 
@@ -7,5 +7,7 @@ interface ProductsProps {
 }
 
 export const Products: FC<ProductsProps> = (props) => {
-	return <Box>{props.products.map(product => <div><Product name={product.name} price={product.price} /></div>)}</Box>
+	return <Grid container spacing={2}>
+		{props.products.map(product => <Grid item xs={3}><Product name={product.name} price={product.price} /></Grid>)}
+	</Grid>
 }
