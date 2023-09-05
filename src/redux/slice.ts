@@ -29,7 +29,7 @@ export const vendingMachineSlice = createSlice({
                 state.balance = 0;
             } else {
                 state.balance += action.payload
-            }            
+            }           
         },
         setUserInfo: (state, action: PayloadAction<UserInfo | null>) => {
             state.userInfo = action.payload

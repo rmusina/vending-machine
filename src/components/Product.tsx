@@ -1,6 +1,7 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Card, CardActions, CardContent, CardHeader, Divider, Grid, Grow, Typography } from '@mui/material';
+import { Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@mui/material';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export interface ProductProps {
 	name: string;
@@ -9,6 +10,14 @@ export interface ProductProps {
 }
 
 export const Product = ({ name, price, stock }: ProductProps) => {
+	const [stockState, setStockState] = useState(stock);
+	const [isBuyDisabled, setBuyDisabled] = useState(stock <= 0);
+
+	const handleOnClick = () => {
+		setStockState(stockState - 1)
+		setBuyDisabled(stockState <= 1)
+	}
+
 	return (
 		<Card>
 			<CardHeader
@@ -41,14 +50,14 @@ export const Product = ({ name, price, stock }: ProductProps) => {
 						</Grid>
 						<Grid item xs={12}>
 							<Typography component="h2" variant="h4" color="text.secondayr" align="center">
-								{stock}
+								{stockState}
 							</Typography>
 						</Grid>
 					</Grid>
 				</Box>
 			</CardContent>
 			<CardActions>
-				<Button fullWidth variant="outlined">Buy</Button>
+				<Button fullWidth disabled={isBuyDisabled} variant="outlined" onClick={() => handleOnClick()}>Buy</Button>
 			</CardActions>
 		</Card >
 	)

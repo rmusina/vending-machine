@@ -1,11 +1,11 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Avatar, Container, TextField } from '@mui/material';
+import { Avatar, Backdrop, CircularProgress, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { setUserInfo, UserInfo } from '../redux/slice';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 
 export interface LoginFormProps {
@@ -14,16 +14,17 @@ export interface LoginFormProps {
 
 
 const simulateRequest = (mock: string): Promise<string> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(mock)
-        }, 500)
-    })
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve(mock)
+		}, 1000)
+	})
 }
 
 
 export const LoginForm: FC<LoginFormProps> = (props) => {
-	const dispatch = useDispatch()
+    const [isLoading, setLoading] = useState(false);
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -32,15 +33,17 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
 		const customer = data.get('customer');
 
 		const createUserId = async () => {
-            try {
-                return await simulateRequest("123")
-            } catch (error) {
-            } finally {
-            }
-        };
+			try {
+				setLoading(true);
+				return await simulateRequest("123")
+			} catch (error) {
+			} finally {
+			}
+		};
 
 		createUserId().then((userId) => {
-			dispatch(setUserInfo({name: customer.toString(), id: userId}));
+			dispatch(setUserInfo({ name: customer.toString(), id: userId }));
+			setLoading(false);
 			navigate(props.redirectUrl);
 		})
 	};
@@ -79,6 +82,9 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
 				>
 					Login
 				</Button>
+				<Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+					<CircularProgress color="inherit" />
+				</Backdrop>
 			</Box>
 		</Container>
 	)

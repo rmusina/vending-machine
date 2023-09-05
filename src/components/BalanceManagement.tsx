@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { updateBalance } from "../redux/slice"
 import { RootState } from "../redux/store"
 
+
 export const BalanceManagement = () => {
     const balance = useSelector((state: RootState) => state.vendingMachine.balance)
     const dispatch = useDispatch()

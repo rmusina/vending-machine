@@ -1,4 +1,4 @@
-import { CircularProgress, Container, Grid, Typography } from "@mui/material"
+import { Backdrop, CircularProgress, Container, Grid, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { FC, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -87,12 +87,6 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
         return <Navigate to='/' />
     }
 
-    if (isLoading) {
-        return <div style={{display: 'flex', justifyContent: 'center'}}>
-            <CircularProgress/>
-        </div>;
-    }
-
     if (error) {
         return <div>Error: {error.message}</div>;
     }
@@ -116,6 +110,9 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
                     </Grid>
                 </Grid>
             </Container>
+            <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </Box>
     )
 }
