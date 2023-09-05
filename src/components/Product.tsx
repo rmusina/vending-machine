@@ -48,7 +48,7 @@ export const Product = ({ name, price, stock }: ProductProps) => {
 				</Box>
 			</CardContent>
 			<CardActions>
-				<Button fullWidth variant="contained">Buy</Button>
+				<Button fullWidth variant="outlined">Buy</Button>
 			</CardActions>
 		</Card >
 	)

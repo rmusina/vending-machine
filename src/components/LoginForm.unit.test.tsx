@@ -4,6 +4,7 @@ import { LoginForm } from './LoginForm';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { setName } from '../redux/slice';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
 test('Clicking login saves username in redux', () => {
@@ -11,7 +12,11 @@ test('Clicking login saves username in redux', () => {
 
     const { getByText, getByLabelText } = render(
         <Provider store={mockedStore}>
-            <LoginForm />
+            <BrowserRouter>
+	            <Routes>
+	                <Route path="/" element={<LoginForm redirectUrl='/'/>} />
+                </Routes>
+            </BrowserRouter>
         </Provider>
     );
 
