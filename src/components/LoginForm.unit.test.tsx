@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import { LoginForm } from './LoginForm';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { setName } from '../redux/slice';
+import { setName, VendingMachineState } from '../redux/slice';
 
 
 test('Button click event should be triggered', () => {
