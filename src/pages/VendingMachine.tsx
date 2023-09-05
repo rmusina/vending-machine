@@ -1,9 +1,12 @@
 import { TextField } from "@mui/material"
 import { Box } from "@mui/system"
 import { FC, useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { Navigate } from "react-router"
 import { BalanceManagement } from "../components/BalanceManagement"
 import { ProductProps } from "../components/Product"
 import { Products } from "../components/Products"
+import { RootState } from "../redux/store"
 
 
 const payload = [
@@ -30,6 +33,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     const [products, setProducts] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const name = useSelector((state: RootState) => state.vendingMachine.name)
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -47,6 +51,10 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
         fetchProducts();
     }, [url]);
 
+    if (!name) {
+        return <Navigate to='/' />
+    }
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
@@ -57,7 +65,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
 
     return (
         <Box> 
-            <TextField id="standard-basic" label="Rares Musina" variant="standard" />
+            <TextField id="standard-basic" label={name} variant="standard" />
             <Products products={products}/>
             <BalanceManagement />
         </Box>
