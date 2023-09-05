@@ -12,35 +12,43 @@ import { RootState } from "../redux/store"
 const payload = [
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Red bull',
-        price: 2
+        price: 2,
+        stock: 10
     },
     {
         name: 'Martini',
-        price: 200
+        price: 200,
+        stock: 10
     }
 ]
 
