@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@mui/material"
+import { CircularProgress, Container, Grid, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { FC, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -65,7 +65,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     const [products, setProducts] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const name = useSelector((state: RootState) => state.vendingMachine.name)
+    const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo)
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -83,12 +83,14 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
         fetchProducts();
     }, [url]);
 
-    if (!name) {
+    if (!userInfo) {
         return <Navigate to='/' />
     }
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div style={{display: 'flex', justifyContent: 'center'}}>
+            <CircularProgress/>
+        </div>;
     }
 
     if (error) {
@@ -105,7 +107,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
                     <Grid item xs={4}>
                         <Grid container spacing={3}>
                             <Grid item xs={8}>
-                                <Typography component="p" variant="h3">{name}</Typography>
+                                <Typography component="p" variant="h3">{userInfo.name}</Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <BalanceManagement />

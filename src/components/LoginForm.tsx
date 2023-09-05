@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Avatar, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setName } from '../redux/slice';
+import { setUserInfo, UserInfo } from '../redux/slice';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router';
 import { FC } from 'react';
@@ -10,6 +10,15 @@ import { FC } from 'react';
 
 export interface LoginFormProps {
 	redirectUrl: string;
+}
+
+
+const simulateRequest = (mock: string): Promise<string> => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(mock)
+        }, 500)
+    })
 }
 
 
@@ -21,9 +30,19 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
 		const customer = data.get('customer');
-		dispatch(setName(customer.toString()))
-		
-		navigate(props.redirectUrl)
+
+		const createUserId = async () => {
+            try {
+                return await simulateRequest("123")
+            } catch (error) {
+            } finally {
+            }
+        };
+
+		createUserId().then((userId) => {
+			dispatch(setUserInfo({name: customer.toString(), id: userId}));
+			navigate(props.redirectUrl);
+		})
 	};
 
 	return (
