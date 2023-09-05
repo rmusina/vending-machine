@@ -3,10 +3,10 @@ import { render, fireEvent } from '@testing-library/react';
 import { LoginForm } from './LoginForm';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { setName, VendingMachineState } from '../redux/slice';
+import { setName } from '../redux/slice';
 
 
-test('Button click event should be triggered', () => {
+test('Clicking login saves username in redux store', () => {
     const mockedStore = configureStore()({})
 
     const { getByText, getByLabelText } = render(
