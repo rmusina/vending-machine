@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, CircularProgress, Grid, Typography } from "@mui/material"
+import { Alert, Backdrop, Box, Button, CircularProgress, Grid, Snackbar, Typography } from "@mui/material"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { api } from "../api"
@@ -8,6 +8,7 @@ import { RootState } from "../redux/store"
 
 export const BalanceManagement = () => {
     const [isLoading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const balance = useSelector((state: RootState) => state.vendingMachine.balance);
     const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo);
     const dispatch = useDispatch()
@@ -18,7 +19,7 @@ export const BalanceManagement = () => {
 				dispatch(updateBalance(balance));
 			},
 			(reason: any) => {	
-				console.log(reason.message)
+				setError(reason.message)
 			}
 		).finally(
 			() => { setLoading(false) }
@@ -56,6 +57,11 @@ export const BalanceManagement = () => {
                     <CircularProgress color="inherit" />
                 </Backdrop>
             </Grid>
+            <Snackbar open={error} autoHideDuration={6000} onClose={() => { setError(null) }}>
+                <Alert onClose={() => { setError(null) }} severity="error" sx={{ width: '100%' }}>
+                    {error}
+                </Alert>
+            </Snackbar>
         </Box>
 	)
 }
