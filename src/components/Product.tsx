@@ -24,6 +24,8 @@ export const Product = ({ id, slot_id, name, price, stock }: ProductProps) => {
 	const dispatch = useDispatch();
 
 	const handleOnClick = () => {
+		setLoading(true)
+
 		api.buyProduct(slot_id, userInfo.id, id).then(
 			(response: any) => {
 				setStockState(stockState - 1);
@@ -38,7 +40,7 @@ export const Product = ({ id, slot_id, name, price, stock }: ProductProps) => {
 	}
 
 	return (
-		<Card sx={{ position: "relative" }}>
+		<Card>
 			<CardHeader
 				title={name}
 				titleTypographyProps={{ align: 'center', noWrap: true }}
@@ -80,7 +82,7 @@ export const Product = ({ id, slot_id, name, price, stock }: ProductProps) => {
 			<CardActions>
 				<Button fullWidth disabled={stockState <= 0 || balance < price} variant="outlined" onClick={() => handleOnClick()}>Buy</Button>
 			</CardActions>
-			<Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, position: "absolute" }} open={isLoading}>
+			<Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
 				<CircularProgress color="inherit" />
 			</Backdrop>
 		</Card >

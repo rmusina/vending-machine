@@ -14,6 +14,8 @@ export const BalanceManagement = () => {
     const dispatch = useDispatch()
 	
     const handleOnClick = (balance: number) => {
+        setLoading(true)
+
 		api.updateCredit(userInfo.id, balance).then(
 			(response: any) => {
 				dispatch(updateBalance(balance));
@@ -27,7 +29,7 @@ export const BalanceManagement = () => {
 	}
 
     return (
-        <Box sx={{position: "relative"}}>
+        <Box>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
                     <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 0.1)}>0.1€</Button>
@@ -53,10 +55,10 @@ export const BalanceManagement = () => {
                 <Grid item xs={6}>
                     <Button fullWidth color="success" variant="contained" onClick={() => handleOnClick(0)}>Refund</Button>
                 </Grid>
-                <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, position: "absolute" }} open={isLoading}>
-                    <CircularProgress color="inherit" />
-                </Backdrop>
             </Grid>
+            <Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} open={isLoading}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <Snackbar open={error} autoHideDuration={6000} onClose={() => { setError(null) }}>
                 <Alert onClose={() => { setError(null) }} severity="error" sx={{ width: '100%' }}>
                     {error}
