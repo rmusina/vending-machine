@@ -9,6 +9,7 @@ import { FC, useState } from 'react';
 
 
 export interface LoginFormProps {
+	url: string;
 	redirectUrl: string;
 }
 

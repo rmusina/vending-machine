@@ -14,7 +14,7 @@ test('Clicking login saves username in redux', async () => {
         <Provider store={mockedStore}>
             <BrowserRouter>
 	            <Routes>
-	                <Route path="/" element={<LoginForm redirectUrl='/'/>} />
+	                <Route path="/" element={<LoginForm url='' redirectUrl='/'/>} />
                 </Routes>
             </BrowserRouter>
         </Provider>
