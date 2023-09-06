@@ -3,62 +3,11 @@ import { Box } from "@mui/system"
 import { FC, useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Navigate } from "react-router"
+import { api } from "../api"
 import { BalanceManagement } from "../components/BalanceManagement"
 import { ProductProps } from "../components/Product"
 import { Products } from "../components/Products"
 import { RootState } from "../redux/store"
-
-
-const payload = [
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Red bull',
-        price: 2,
-        stock: 10
-    },
-    {
-        name: 'Martini',
-        price: 200,
-        stock: 10
-    }
-]
-
-const simulateRequest = (mock: ProductProps[]): Promise<ProductProps[]> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(mock)
-        }, 1000)
-    })
-}
 
 
 export const VendingMachine: FC<{ url: string }> = (url) => {
@@ -68,19 +17,17 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                setLoading(true);
-                const response = await simulateRequest(payload)
-                setProducts(response);
-            } catch (error) {
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        setLoading(true);
 
-        fetchProducts();
+        api.getSlots().then(
+			(response: any) => {
+                let parsedProducts: ProductProps[] = response.data.map(slot => ({name: slot.product.name, stock: slot.quantity, price: slot.product.price}))
+				setProducts(parsedProducts);
+			},
+			(reason: any) => { setError(reason.message)	}
+		).finally(
+			() => { setLoading(false) }
+		)
     }, [url]);
 
     if (!userInfo) {
@@ -88,7 +35,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     }
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return <div>Error: {error}</div>;
     }
 
     return (

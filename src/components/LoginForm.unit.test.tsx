@@ -7,13 +7,14 @@ import { setUserInfo } from '../redux/slice';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 
+jest.mock('../api', () => ({
+    login: jest.fn(() => ({ id: "123" }))
+}));
+
+
 test('Clicking login saves username in redux', async () => {
     const mockedStore = configureStore()({})
-    jest.mock('../api', () => ({
-        ...jest.requireActual('../api'),
-        login: jest.fn(() => { id: "123" })
-    }));
-
+    
     const { getByText, getByLabelText } = render(
         <Provider store={mockedStore}>
             <BrowserRouter>
