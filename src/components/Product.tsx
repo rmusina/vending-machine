@@ -1,7 +1,10 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@mui/material';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Backdrop, Card, CardActions, CardContent, CardHeader, CircularProgress, Grid, Typography } from '@mui/material';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+import { updateBalance } from '../redux/slice';
 
 export interface ProductProps {
 	name: string;
@@ -9,17 +12,41 @@ export interface ProductProps {
 	stock: number;
 }
 
+
+const simulateRequest = (newStock: number): Promise<number> => {
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve(newStock-1)
+		}, 500)
+	})
+}
+
+
 export const Product = ({ name, price, stock }: ProductProps) => {
+    const [isLoading, setLoading] = useState(false);
 	const [stockState, setStockState] = useState(stock);
-	const [isBuyDisabled, setBuyDisabled] = useState(stock <= 0);
+    const balance = useSelector((state: RootState) => state.vendingMachine.balance);
+	const dispatch = useDispatch();
 
 	const handleOnClick = () => {
-		setStockState(stockState - 1)
-		setBuyDisabled(stockState <= 1)
+		const buyProduct = async () => {
+			try {
+				setLoading(true);
+				return await simulateRequest(stockState)
+			} catch (error) {
+			} finally {
+			}
+		};
+
+		buyProduct().then((newStock) => {
+			setStockState(newStock);
+			dispatch(updateBalance(balance-price))
+			setLoading(false);
+		})
 	}
 
 	return (
-		<Card>
+		<Card sx={{position: "relative"}}>
 			<CardHeader
 				title={name}
 				titleTypographyProps={{ align: 'center' }}
@@ -57,8 +84,11 @@ export const Product = ({ name, price, stock }: ProductProps) => {
 				</Box>
 			</CardContent>
 			<CardActions>
-				<Button fullWidth disabled={isBuyDisabled} variant="outlined" onClick={() => handleOnClick()}>Buy</Button>
+				<Button fullWidth disabled={stockState <= 0 || balance < price} variant="outlined" onClick={() => handleOnClick()}>Buy</Button>
 			</CardActions>
+			<Backdrop sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, position: "absolute" }} open={isLoading}>
+				<CircularProgress color="inherit" />
+			</Backdrop>
 		</Card >
 	)
 }

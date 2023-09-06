@@ -65,7 +65,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
     const [products, setProducts] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo)
+    const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo);
 
     useEffect(() => {
         const fetchProducts = async () => {

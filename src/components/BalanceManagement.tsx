@@ -17,22 +17,22 @@ export const BalanceManagement = () => {
         <Box>
             <Grid container spacing={3}>
                 <Grid item xs={6}>
-                    <Button fullWidth variant="contained" onClick={() => handleOnClick(0.1)}>0.1€</Button>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 0.1)}>0.1€</Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button fullWidth variant="contained" onClick={() => handleOnClick(0.2)}>0.2€</Button>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 0.2)}>0.2€</Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button fullWidth variant="contained" onClick={() => handleOnClick(0.5)}>0.5€</Button>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 0.5)}>0.5€</Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button fullWidth variant="contained" onClick={() => handleOnClick(1)}>1€</Button>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 1)}>1€</Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button fullWidth variant="contained" onClick={() => handleOnClick(2)}>2€</Button>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 2)}>2€</Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button fullWidth variant="contained" onClick={() => handleOnClick(5)}>5€</Button>
+                    <Button fullWidth variant="contained" onClick={() => handleOnClick(balance + 5)}>5€</Button>
                 </Grid>
                 <Grid item xs={6}>
                     <Typography component="p" variant="h4">{balance.toFixed(2)}€</Typography>
