@@ -1,38 +1,28 @@
 import { Backdrop, Box, Button, CircularProgress, Grid, Typography } from "@mui/material"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { api } from "../api"
 import { updateBalance } from "../redux/slice"
 import { RootState } from "../redux/store"
 
 
-const simulateRequest = (newBalance: number): Promise<number> => {
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			resolve(newBalance)
-		}, 500)
-	})
-}
-
-
 export const BalanceManagement = () => {
     const [isLoading, setLoading] = useState(false);
-    const balance = useSelector((state: RootState) => state.vendingMachine.balance)
+    const balance = useSelector((state: RootState) => state.vendingMachine.balance);
+    const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo);
     const dispatch = useDispatch()
 	
     const handleOnClick = (balance: number) => {
-		const buyProduct = async () => {
-			try {
-				setLoading(true);
-				return await simulateRequest(balance)
-			} catch (error) {
-			} finally {
+		api.updateCredit(userInfo.id, balance).then(
+			(response: any) => {
+				dispatch(updateBalance(balance));
+			},
+			(reason: any) => {	
+				console.log(reason.message)
 			}
-		};
-
-		buyProduct().then((newBalance) => {
-			dispatch(updateBalance(newBalance))
-			setLoading(false);
-		})
+		).finally(
+			() => { setLoading(false) }
+		)
 	}
 
     return (

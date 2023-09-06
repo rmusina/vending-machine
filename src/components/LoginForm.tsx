@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Alert, AlertTitle, Avatar, Backdrop, CircularProgress, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setUserInfo, UserInfo } from '../redux/slice';
+import { setUserInfo, updateBalance, UserInfo } from '../redux/slice';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router';
 import { FC, useState } from 'react';
@@ -31,6 +31,7 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
 		api.login(customer).then(
 			(response: any) => {
 				dispatch(setUserInfo({ name: customer, id: response.data.id }));
+				dispatch(updateBalance(+response.data.credit));
 				navigate(props.redirectUrl);
 			},
 			(reason: any) => { setError(reason.message)	}
