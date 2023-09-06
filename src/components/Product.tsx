@@ -5,59 +5,53 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { updateBalance } from '../redux/slice';
+import { api } from '../api';
 
 export interface ProductProps {
+	id: string,
+	slot_id: string,
 	name: string;
 	price: number;
 	stock: number;
 }
 
 
-const simulateRequest = (newStock: number): Promise<number> => {
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			resolve(newStock-1)
-		}, 500)
-	})
-}
-
-
-export const Product = ({ name, price, stock }: ProductProps) => {
-    const [isLoading, setLoading] = useState(false);
+export const Product = ({ id, slot_id, name, price, stock }: ProductProps) => {
+	const [isLoading, setLoading] = useState(false);
 	const [stockState, setStockState] = useState(stock);
-    const balance = useSelector((state: RootState) => state.vendingMachine.balance);
+	const balance = useSelector((state: RootState) => state.vendingMachine.balance);
+    const userInfo = useSelector((state: RootState) => state.vendingMachine.userInfo);
 	const dispatch = useDispatch();
 
 	const handleOnClick = () => {
-		const buyProduct = async () => {
-			try {
-				setLoading(true);
-				return await simulateRequest(stockState)
-			} catch (error) {
-			} finally {
+		api.buyProduct(slot_id, userInfo.id, id).then(
+			(response: any) => {
+				setStockState(stockState - 1);
+				dispatch(updateBalance(balance - price));
+			},
+			(reason: any) => {	
+				console.log(reason.message)
 			}
-		};
-
-		buyProduct().then((newStock) => {
-			setStockState(newStock);
-			dispatch(updateBalance(balance-price))
-			setLoading(false);
-		})
+		).finally(
+			() => { setLoading(false) }
+		)
 	}
 
 	return (
-		<Card sx={{position: "relative"}}>
+		<Card sx={{ position: "relative" }}>
 			<CardHeader
 				title={name}
-				titleTypographyProps={{ align: 'center' }}
-				subheaderTypographyProps={{
-					align: 'center',
-				}}
+				titleTypographyProps={{ align: 'center', noWrap: true }}
 				sx={{
 					backgroundColor: (theme) =>
 						theme.palette.mode === 'light'
 							? theme.palette.grey[200]
 							: theme.palette.grey[700],
+					display: "flex",
+					overflow: "hidden",
+					"& .MuiCardHeader-content": {
+						overflow: "hidden"
+					}
 				}}
 			/>
 			<CardContent>

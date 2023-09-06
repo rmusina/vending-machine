@@ -8,6 +8,6 @@ interface ProductsProps {
 
 export const Products: FC<ProductsProps> = (props) => {
 	return <Grid container spacing={2}>
-		{props.products.map(product => <Grid item xs={3}><Product name={product.name} price={product.price} stock={product.stock}/></Grid>)}
+		{props.products.map(product => <Grid item xs={3}><Product id={product.id} slot_id={product.slot_id} name={product.name} price={product.price} stock={product.stock}/></Grid>)}
 	</Grid>
 }

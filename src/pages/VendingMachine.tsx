@@ -21,7 +21,7 @@ export const VendingMachine: FC<{ url: string }> = (url) => {
 
         api.getSlots().then(
 			(response: any) => {
-                let parsedProducts: ProductProps[] = response.data.map(slot => ({name: slot.product.name, stock: slot.quantity, price: slot.product.price}))
+                let parsedProducts: ProductProps[] = response.data.map(slot => ({id: slot.product.id, slot_id: slot.id, name: slot.product.name, stock: slot.quantity, price: slot.product.price}))
 				setProducts(parsedProducts);
 			},
 			(reason: any) => { setError(reason.message)	}
