@@ -9,6 +9,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 test('Clicking login saves username in redux', async () => {
     const mockedStore = configureStore()({})
+    jest.mock('../api', () => ({
+        ...jest.requireActual('../api'),
+        login: jest.fn(() => { id: "123" })
+    }));
 
     const { getByText, getByLabelText } = render(
         <Provider store={mockedStore}>

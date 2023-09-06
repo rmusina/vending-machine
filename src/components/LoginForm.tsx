@@ -1,11 +1,12 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { Avatar, Backdrop, CircularProgress, Container, TextField } from '@mui/material';
+import { Alert, AlertTitle, Avatar, Backdrop, CircularProgress, Container, TextField } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { setUserInfo, UserInfo } from '../redux/slice';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useNavigate } from 'react-router';
 import { FC, useState } from 'react';
+import { api } from '../api';
 
 
 export interface LoginFormProps {
@@ -14,39 +15,28 @@ export interface LoginFormProps {
 }
 
 
-const simulateRequest = (mock: string): Promise<string> => {
-	return new Promise((resolve) => {
-		setTimeout(() => {
-			resolve(mock)
-		}, 1000)
-	})
-}
-
-
 export const LoginForm: FC<LoginFormProps> = (props) => {
-    const [isLoading, setLoading] = useState(false);
+	const [isLoading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const data = new FormData(event.currentTarget);
-		const customer = data.get('customer');
+		const customer = data.get('customer').toString();
 
-		const createUserId = async () => {
-			try {
-				setLoading(true);
-				return await simulateRequest("123")
-			} catch (error) {
-			} finally {
-			}
-		};
+		setLoading(true);
 
-		createUserId().then((userId) => {
-			dispatch(setUserInfo({ name: customer.toString(), id: userId }));
-			setLoading(false);
-			navigate(props.redirectUrl);
-		})
+		api.login(customer).then(
+			(response: any) => {
+				dispatch(setUserInfo({ name: customer, id: response.data.id }));
+				navigate(props.redirectUrl);
+			},
+			(reason: any) => { setError(reason.message)	}
+		).finally(
+			() => { setLoading(false) }
+		)
 	};
 
 	return (
@@ -75,6 +65,14 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
 					autoComplete="customer"
 					variant='standard'
 					autoFocus />
+				{
+					error ?
+						<Alert severity="error" onClose={() => { setError(null) }}>
+							<AlertTitle>Error</AlertTitle>
+							{error}
+						</Alert>
+						: null
+				}
 				<Button
 					type="submit"
 					fullWidth
